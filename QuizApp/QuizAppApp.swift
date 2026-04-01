@@ -1,13 +1,6 @@
 import SwiftUI
 
 // App phases for simple state-driven navigation
-enum AppFlowPhase {
-    case start
-    case quiz
-    case result
-}
-
-// App phases for simple state-driven navigation
 enum AppPhase {
     case start
     case quiz
