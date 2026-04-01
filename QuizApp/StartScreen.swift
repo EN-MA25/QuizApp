@@ -8,7 +8,7 @@ struct StartScreen: View {
         VStack(spacing: 24) {
             Spacer()
 
-            Image(systemName: "sparkles.gift.fill")
+            Image(systemName: "sparkles")
                 .resizable()
                 .scaledToFit()
                 .frame(width: 120, height: 120)
