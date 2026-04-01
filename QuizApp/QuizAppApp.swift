@@ -7,9 +7,16 @@ enum AppFlowPhase {
     case result
 }
 
+// App phases for simple state-driven navigation
+enum AppPhase {
+    case start
+    case quiz
+    case result
+}
+
 @main
 struct QuizAppApp: App {
-    @State private var phase: AppFlowPhase = .start
+    @State private var phase: AppPhase = .start
     @State private var selectedTheme: String = "Geografi"
 
     var body: some Scene {
