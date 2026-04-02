@@ -19,17 +19,35 @@ struct QuizAppApp: App {
                 case .start:
                     StartScreen(phase: $phase, selectedTheme: $selectedTheme)
                 case .quiz:
-                    GameView(phase: $phase, selectedTheme: $selectedTheme)
+                    GameView(
+                        phase: $phase,
+                        selectedTheme: $selectedTheme,
+                        cards: cards(for: selectedTheme)
+                    )
                 case .result:
-                    ResultView(score: 0, total: 0) // placeholder result view
+                    ResultView(phase: $phase, score: 0, total: 0)  // placeholder result view
                 }
             }
+        }
+    }
+
+    func cards(for theme: String) -> [Card] {
+        switch theme {
+        case "Geografi":
+            return geographyCards
+        case "Mattematik":
+            return mathCards
+        case "Musik":
+            return musicCards
+        default:
+            return []
         }
     }
 }
 
 // Simple result placeholder
 struct ResultView: View {
+    @Binding var phase: AppPhase
     let score: Int
     let total: Int
 
@@ -41,7 +59,10 @@ struct ResultView: View {
             Text("Du fick \(score) av \(total) poäng")
                 .font(.body)
             Button("Börja om") {
-              
+                withAnimation {
+                    phase = .start
+                }
+
             }
             .buttonStyle(.bordered)
         }
