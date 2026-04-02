@@ -12,20 +12,34 @@ struct QuizAppApp: App {
     @State private var phase: AppPhase = .start
     @State private var selectedTheme: String = "Geografi"
 
+    @State private var finalScore: Int = 0
+    @State private var totalQuestions: Int = 0
+
     var body: some Scene {
         WindowGroup {
             Group {
                 switch phase {
                 case .start:
-                    StartScreen(phase: $phase, selectedTheme: $selectedTheme)
+                    StartScreen(
+                        phase: $phase,
+                        selectedTheme: $selectedTheme
+                    )
+
                 case .quiz:
                     GameView(
                         phase: $phase,
                         selectedTheme: $selectedTheme,
+                        finalScore: $finalScore,
+                        totalQuestions: $totalQuestions,
                         cards: cards(for: selectedTheme)
                     )
+
                 case .result:
-                    ResultView(phase: $phase, score: 0, total: 0)  // placeholder result view
+                    ResultView(
+                        phase: $phase,
+                        score: finalScore,
+                        total: totalQuestions
+                    )
                 }
             }
         }
