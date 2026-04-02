@@ -54,16 +54,13 @@ struct CardView: View {
         onAnswerSelected(answer)
 
     }
-
     func backgroundColor(for answer: String) -> Color {
         guard showResult else {
             return Color.blue.opacity(0.2)
         }
 
-        if let correctAnswer = card.answers.first {
-            if answer == correctAnswer {
-                return .green
-            }
+        if answer == card.correctAnswer {
+            return .green
         }
 
         if answer == selectedAnswer {
