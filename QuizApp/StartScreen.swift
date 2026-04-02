@@ -27,7 +27,7 @@ struct StartScreen: View {
 
             Picker("Tema", selection: $selectedTheme) {
                 Text("Geografi").tag("Geografi")
-                Text("Programmering").tag("Programmering")
+                Text("Mattematik").tag("Mattematik")
                 Text("Musik").tag("Musik")
             }
             .pickerStyle(.segmented)

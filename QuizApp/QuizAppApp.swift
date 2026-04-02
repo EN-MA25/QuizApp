@@ -19,32 +19,28 @@ struct QuizAppApp: App {
                 case .start:
                     StartScreen(phase: $phase, selectedTheme: $selectedTheme)
                 case .quiz:
-                    ContentView() // placeholder: replace with QuizView later in
+                    GameView(
+                        phase: $phase,
+                        selectedTheme: $selectedTheme,
+                        cards: cards(for: selectedTheme)
+                    )
                 case .result:
-                    ResultView(score: 0, total: 0) // placeholder result view
+                    ResultView(phase: $phase, score: 0, total: 0)  // placeholder result view
                 }
             }
         }
     }
-}
 
-// Simple result placeholder
-struct ResultView: View {
-    let score: Int
-    let total: Int
-
-    var body: some View {
-        VStack(spacing: 16) {
-            Text("Resultat")
-                .font(.title)
-                .bold()
-            Text("Du fick \(score) av \(total) poäng")
-                .font(.body)
-            Button("Börja om") {
-              
-            }
-            .buttonStyle(.bordered)
+    func cards(for theme: String) -> [Card] {
+        switch theme {
+        case "Geografi":
+            return geographyCards
+        case "Mattematik":
+            return mathCards
+        case "Musik":
+            return musicCards
+        default:
+            return []
         }
-        .padding()
     }
 }
