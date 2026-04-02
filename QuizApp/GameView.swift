@@ -65,7 +65,7 @@ struct GameView: View {
 
     func handleAnswer(_ answer: String, for card: Card) {
         showNextButton = true
-        if answer == card.answers.first {
+        if answer == card.correctAnswer {
             currentScore += 1
         }
     }
