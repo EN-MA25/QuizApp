@@ -8,11 +8,29 @@
 import SwiftUI
 
 struct ResultView: View {
+    @Binding var phase: AppPhase
+    let score: Int
+    let total: Int
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack(spacing: 16) {
+            Text("Resultat")
+                .font(.title)
+                .bold()
+            Text("Du fick \(score) av \(total) poäng")
+                .font(.body)
+            Button("Börja om") {
+                withAnimation {
+                    phase = .start
+                }
+
+            }
+            .buttonStyle(.bordered)
+        }
+        .padding()
     }
 }
 
 #Preview {
-    ResultView()
+    ResultView(phase: .constant(.result), score: 0, total: 0)
 }
