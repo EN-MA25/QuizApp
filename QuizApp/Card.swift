@@ -11,4 +11,5 @@ struct Card: Identifiable {
     var id: UUID = UUID()
     var question: String
     var answers: [String]
+    var correctAnswer: String
 }
