@@ -19,7 +19,7 @@ struct QuizAppApp: App {
                 case .start:
                     StartScreen(phase: $phase, selectedTheme: $selectedTheme)
                 case .quiz:
-                    ContentView() // placeholder: replace with QuizView later in
+                    GameView(phase: $phase, selectedTheme: $selectedTheme)
                 case .result:
                     ResultView(score: 0, total: 0) // placeholder result view
                 }
