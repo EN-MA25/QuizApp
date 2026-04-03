@@ -25,10 +25,17 @@ struct GameView: View {
                 .font(.subheadline)
 
             ZStack {
+
                 CardView(card: card) { answer in
                     handleAnswer(answer, for: card)
                 }
                 .id(currentIndex)
+                .transition(
+                    .asymmetric(
+                        insertion: .move(edge: .trailing),
+                        removal: .move(edge: .leading)
+                    )
+                )
             }
             .animation(.easeInOut(duration: 0.4), value: currentIndex)
 
@@ -73,8 +80,7 @@ struct GameView: View {
         cards: [
             Card(
                 question: "Vad är Sveriges huvudstad?",
-                answers: ["Stockholm", "Göteborg", "Malmö", "Uppsala"],
-                correctAnswer: "Stockholm"
+                answers: ["Stockholm", "Göteborg", "Malmö", "Uppsala"]
             )
         ]
     )
