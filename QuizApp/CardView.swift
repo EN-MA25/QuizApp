@@ -75,11 +75,13 @@ struct CardView: View {
     CardView(
         card: Card(
             question: "Vad är Sveriges huvudstad?",
-            answers: ["Stockholm", "Göteborg", "Malmö", "Uppsala"]
-        ), onAnswerSelected:test
+            answers: ["Stockholm", "Göteborg", "Malmö", "Uppsala"],
+            correctAnswer: "Stockholm"
+        ),
+        onAnswerSelected: test
     )
 }
 
 func test(test: String) -> Void {
-    
+
 }
