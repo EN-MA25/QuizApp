@@ -8,8 +8,15 @@
 import Foundation
 
 struct Card: Identifiable {
-    var id: UUID = UUID()
+    init(question: String, answers: [String]) {
+        self.id = UUID()
+        self.question = question
+        self.correctAnswer = answers.first
+        self.answers = answers.shuffled()
+    }
+    
+    var id: UUID
     var question: String
+    var correctAnswer: String?
     var answers: [String]
-    var correctAnswer: String
 }

@@ -14,16 +14,13 @@ struct CardView: View {
 
     @State private var selectedAnswer: String? = nil
     @State private var showResult = false
-    @State private var shuffledAnswers: [String] = []
-    
-
     var body: some View {
 
         VStack(spacing: 16) {
             Text(card.question)
                 .font(.title2)
 
-            ForEach(shuffledAnswers, id: \.self) { answer in
+            ForEach(card.answers, id: \.self) { answer in
                 Button(action: {
                     answerTapped(answer)
                 }) {
@@ -36,15 +33,12 @@ struct CardView: View {
                 .disabled(showResult)
                 .opacity(1)
             }
-            
+
         }
         .padding()
         .background(Color.white)
         .cornerRadius(20)
         .shadow(radius: 5)
-        .onAppear {
-            shuffledAnswers = card.answers.shuffled()
-        }
     }
 
     func answerTapped(_ answer: String) {
@@ -75,13 +69,12 @@ struct CardView: View {
     CardView(
         card: Card(
             question: "Vad är Sveriges huvudstad?",
-            answers: ["Stockholm", "Göteborg", "Malmö", "Uppsala"],
-            correctAnswer: "Stockholm"
+            answers: ["Stockholm", "Göteborg", "Malmö", "Uppsala"]
         ),
         onAnswerSelected: test
     )
 }
 
-func test(test: String) -> Void {
+func test(test: String) {
 
 }
