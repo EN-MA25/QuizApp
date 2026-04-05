@@ -46,6 +46,11 @@ struct StartScreen: View {
                             selectedTheme = category.name
                         }
                     }
+                    .onDelete { offset in
+                        selectedTheme = ""
+                        selectedCategory = nil
+                        vm.deleteCategory(at: offset)
+                    }
                 }
                 
                 

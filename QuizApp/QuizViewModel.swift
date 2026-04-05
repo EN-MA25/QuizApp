@@ -48,4 +48,9 @@ class QuizViewModel: ObservableObject {
         categories[index].cards.append(newCard)
         save()
     }
+    
+    func deleteCategory(at offsets: IndexSet) {
+        categories.remove(atOffsets: offsets)
+        save()
+    }
 }
