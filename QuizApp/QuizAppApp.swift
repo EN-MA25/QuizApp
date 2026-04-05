@@ -15,6 +15,8 @@ struct QuizAppApp: App {
     @State private var finalScore: Int = 0
     @State private var totalQuestions: Int = 0
 
+    @StateObject var vm = QuizViewModel()
+    
     var body: some Scene {
         WindowGroup {
             Group {
@@ -22,7 +24,8 @@ struct QuizAppApp: App {
                 case .start:
                     StartScreen(
                         phase: $phase,
-                        selectedTheme: $selectedTheme
+                        selectedTheme: $selectedTheme,
+                        categories: $vm.categories
                     )
 
                 case .quiz:
@@ -46,15 +49,7 @@ struct QuizAppApp: App {
     }
 
     func cards(for theme: String) -> [Card] {
-        switch theme {
-        case "Geografi":
-            return geographyCards
-        case "Mattematik":
-            return mathCards
-        case "Musik":
-            return musicCards
-        default:
-            return []
-        }
+        let category = vm.categories.first(where: {$0.name == theme })
+        return category?.cards ?? []
     }
 }

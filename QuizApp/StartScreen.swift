@@ -3,8 +3,11 @@ import SwiftUI
 struct StartScreen: View {
     @Binding var phase: AppPhase
     @Binding var selectedTheme: String
+    @Binding var categories: [Category]
 
     @State private var showSheet = false
+
+    
 
     var body: some View {
         NavigationStack {
@@ -28,13 +31,15 @@ struct StartScreen: View {
                     .multilineTextAlignment(.center)
                     .padding(.horizontal)
 
-                Picker("Tema", selection: $selectedTheme) {
-                    Text("Geografi").tag("Geografi")
-                    Text("Mattematik").tag("Mattematik")
-                    Text("Musik").tag("Musik")
-                }
-                .pickerStyle(.segmented)
-                .padding(.horizontal)
+                                Picker("Tema", selection: $selectedTheme) {
+                                    ForEach(categories) { category in
+                                        
+                                        Text(category.name).tag(category.name)
+                                        
+                                    }
+                                }
+                                .pickerStyle(.segmented)
+                                .padding(.horizontal)
 
                 Button(action: startQuiz) {
                     Label("Start", systemImage: "play.fill")
@@ -63,7 +68,7 @@ struct StartScreen: View {
 
             }
             .popover(isPresented: $showSheet) {
-                
+                AddQuizView()
             }
         }
 
@@ -84,7 +89,8 @@ struct StartScreen_Previews: PreviewProvider {
     static var previews: some View {
         StartScreen(
             phase: .constant(AppPhase.start),
-            selectedTheme: .constant("Geografi")
+            selectedTheme: .constant("Geografi"),
+            categories: .constant([])
         )
         .previewDevice("iPhone 14")
     }
