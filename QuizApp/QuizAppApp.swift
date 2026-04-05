@@ -5,15 +5,18 @@ enum AppPhase {
     case start
     case quiz
     case result
+    case addCategory
 }
 
 @main
 struct QuizAppApp: App {
     @State private var phase: AppPhase = .start
-    @State private var selectedTheme: String = "Geografi"
+    @State private var selectedTheme: String = ""
 
     @State private var finalScore: Int = 0
     @State private var totalQuestions: Int = 0
+
+    @StateObject var vm = QuizViewModel()
 
     var body: some Scene {
         WindowGroup {
@@ -22,7 +25,8 @@ struct QuizAppApp: App {
                 case .start:
                     StartScreen(
                         phase: $phase,
-                        selectedTheme: $selectedTheme
+                        selectedTheme: $selectedTheme,
+                        vm: vm
                     )
 
                 case .quiz:
@@ -40,21 +44,19 @@ struct QuizAppApp: App {
                         score: finalScore,
                         total: totalQuestions
                     )
+
+                case .addCategory:
+                    AddQuizView(
+                        phase: $phase,
+                        vm: vm
+                    )
                 }
             }
         }
     }
 
     func cards(for theme: String) -> [Card] {
-        switch theme {
-        case "Geografi":
-            return geographyCards
-        case "Mattematik":
-            return mathCards
-        case "Musik":
-            return musicCards
-        default:
-            return []
-        }
+        let category = vm.categories.first(where: { $0.name == theme })
+        return category?.cards.shuffled() ?? []
     }
 }
