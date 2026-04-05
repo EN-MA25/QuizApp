@@ -3,7 +3,7 @@ import SwiftUI
 struct StartScreen: View {
     @Binding var phase: AppPhase
     @Binding var selectedTheme: String
-    @Binding var categories: [Category]
+    @ObservedObject var vm: QuizViewModel
 
     @State private var showSheet = false
 
@@ -32,7 +32,7 @@ struct StartScreen: View {
                     .padding(.horizontal)
 
                                 Picker("Tema", selection: $selectedTheme) {
-                                    ForEach(categories) { category in
+                                    ForEach(vm.categories) { category in
                                         
                                         Text(category.name).tag(category.name)
                                         
@@ -59,16 +59,16 @@ struct StartScreen: View {
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
-                        showSheet = true
+                        withAnimation {
+                            phase = .addCategory
+                        }
+                        
                     } label: {
                         Image(systemName: "plus")
                     }
                     .padding()
                 }
 
-            }
-            .popover(isPresented: $showSheet) {
-                AddQuizView()
             }
         }
 
@@ -90,7 +90,7 @@ struct StartScreen_Previews: PreviewProvider {
         StartScreen(
             phase: .constant(AppPhase.start),
             selectedTheme: .constant("Geografi"),
-            categories: .constant([])
+            vm: QuizViewModel()
         )
         .previewDevice("iPhone 14")
     }

@@ -5,6 +5,7 @@ enum AppPhase {
     case start
     case quiz
     case result
+    case addCategory
 }
 
 @main
@@ -16,7 +17,7 @@ struct QuizAppApp: App {
     @State private var totalQuestions: Int = 0
 
     @StateObject var vm = QuizViewModel()
-    
+
     var body: some Scene {
         WindowGroup {
             Group {
@@ -25,7 +26,7 @@ struct QuizAppApp: App {
                     StartScreen(
                         phase: $phase,
                         selectedTheme: $selectedTheme,
-                        categories: $vm.categories
+                        vm: vm
                     )
 
                 case .quiz:
@@ -43,13 +44,19 @@ struct QuizAppApp: App {
                         score: finalScore,
                         total: totalQuestions
                     )
+
+                case .addCategory:
+                    AddQuizView(
+                        phase: $phase,
+                        vm: vm
+                    )
                 }
             }
         }
     }
 
     func cards(for theme: String) -> [Card] {
-        let category = vm.categories.first(where: {$0.name == theme })
-        return category?.cards ?? []
+        let category = vm.categories.first(where: { $0.name == theme })
+        return category?.cards.shuffled() ?? []
     }
 }

@@ -31,10 +31,14 @@ class QuizViewModel: ObservableObject {
         storage.save(categories: categories)
     }
 
-    func addCategory(name: String) {
+    func addCategory(name: String) -> Category {
+        if let oldCategory = categories.first(where: { $0.name == name }) {
+            return oldCategory
+        }
         let newCategory = Category(name: name, cards: [])
         categories.append(newCategory)
         save()
+        return newCategory
     }
 
     func addCard(to category: Category, question: String, answers: [String]) {
