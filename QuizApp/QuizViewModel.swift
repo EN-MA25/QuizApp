@@ -5,4 +5,43 @@
 //  Created by Erik on 2026-04-05.
 //
 
-import Foundation
+
+import SwiftUI
+import Combine
+
+class QuizViewModel: ObservableObject {
+    @Published var categories: [Category] = []
+
+    private let storage = QuizStorage()
+
+    init() {
+        categories = storage.load()
+
+        if categories.isEmpty {
+            categories = [
+                Category(name: "Geografi", cards: geographyCards),
+                Category(name: "Matematik", cards: mathCards),
+                Category(name: "Musik", cards: musicCards)
+            ]
+            save()
+        }
+    }
+
+    func save() {
+        storage.save(categories: categories)
+    }
+
+    func addCategory(name: String) {
+        let newCategory = Category(name: name, cards: [])
+        categories.append(newCategory)
+        save()
+    }
+
+    func addCard(to category: Category, question: String, answers: [String]) {
+        guard let index = categories.firstIndex(where: { $0.id == category.id }) else { return }
+
+        let newCard = Card(question: question, answers: answers)
+        categories[index].cards.append(newCard)
+        save()
+    }
+}
