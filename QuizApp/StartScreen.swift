@@ -4,57 +4,79 @@ struct StartScreen: View {
     @Binding var phase: AppPhase
     @Binding var selectedTheme: String
 
+    @State private var showSheet = false
+
     var body: some View {
-        VStack(spacing: 24) {
-            Spacer()
+        NavigationStack {
+            VStack(spacing: 24) {
+                Spacer()
 
-            Image(systemName: "sparkles")
-                .resizable()
-                .scaledToFit()
-                .frame(width: 120, height: 120)
-                .foregroundStyle(Color.accentColor)
+                Image(systemName: "sparkles")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 120, height: 120)
+                    .foregroundStyle(Color.accentColor)
 
-            Text("Välkommen till QuizApp")
-                .font(.largeTitle)
-                .bold()
-                .multilineTextAlignment(.center)
+                Text("Välkommen till QuizApp")
+                    .font(.largeTitle)
+                    .bold()
+                    .multilineTextAlignment(.center)
 
-            Text("Välj ett tema och tryck Start för att börja quizet.")
-                .font(.body)
-                .foregroundColor(.secondary)
-                .multilineTextAlignment(.center)
+                Text("Välj ett tema och tryck Start för att börja quizet.")
+                    .font(.body)
+                    .foregroundColor(.secondary)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal)
+
+                Picker("Tema", selection: $selectedTheme) {
+                    Text("Geografi").tag("Geografi")
+                    Text("Mattematik").tag("Mattematik")
+                    Text("Musik").tag("Musik")
+                }
+                .pickerStyle(.segmented)
                 .padding(.horizontal)
 
-            Picker("Tema", selection: $selectedTheme) {
-                Text("Geografi").tag("Geografi")
-                Text("Mattematik").tag("Mattematik")
-                Text("Musik").tag("Musik")
+                Button(action: startQuiz) {
+                    Label("Start", systemImage: "play.fill")
+                        .frame(maxWidth: .infinity)
+                }
+                .buttonStyle(.borderedProminent)
+                .controlSize(.large)
+                .padding(.horizontal)
+                .disabled(selectedTheme.isEmpty)
+
+                Spacer()
+
+                Text("Lycka till!")
+                    .font(.footnote)
+                    .foregroundColor(.secondary)
             }
-            .pickerStyle(.segmented)
-            .padding(.horizontal)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        showSheet = true
+                    } label: {
+                        Image(systemName: "plus")
+                    }
+                    .padding()
+                }
 
-            Button(action: startQuiz) {
-                Label("Start", systemImage: "play.fill")
-                    .frame(maxWidth: .infinity)
             }
-            .buttonStyle(.borderedProminent)
-            .controlSize(.large)
-            .padding(.horizontal)
-            .disabled(selectedTheme.isEmpty)
-
-            Spacer()
-
-            Text("Lycka till!")
-                .font(.footnote)
-                .foregroundColor(.secondary)
+            .popover(isPresented: $showSheet) {
+                
+            }
         }
-        .padding()
+
     }
 
     private func startQuiz() {
         withAnimation {
             phase = .quiz
         }
+    }
+
+    private func addQuiz() {
+
     }
 }
 
