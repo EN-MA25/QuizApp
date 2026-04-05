@@ -36,9 +36,9 @@ struct CardView: View {
 
         }
         .padding()
-        .background(Color.white)
+        .background(Color(.systemBackground))
         .cornerRadius(20)
-        .shadow(radius: 5)
+        .shadow(color: .primary, radius: 5)
     }
 
     func answerTapped(_ answer: String) {
