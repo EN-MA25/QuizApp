@@ -6,8 +6,7 @@ struct StartScreen: View {
     @ObservedObject var vm: QuizViewModel
 
     @State private var showSheet = false
-
-    
+    @State private var selectedCategory: Category?
 
     var body: some View {
         NavigationStack {
@@ -31,16 +30,25 @@ struct StartScreen: View {
                     .multilineTextAlignment(.center)
                     .padding(.horizontal)
 
-                                Picker("Tema", selection: $selectedTheme) {
-                                    ForEach(vm.categories) { category in
-                                        
-                                        Text(category.name).tag(category.name)
-                                        
-                                    }
-                                }
-                                .pickerStyle(.segmented)
-                                .padding(.horizontal)
-
+                
+                List {
+                    ForEach(vm.categories) { category in
+                        HStack {
+                            Text(category.name)
+                            Spacer()
+                            if selectedCategory?.id == category.id {
+                                Image(systemName: "checkmark")
+                            }
+                        }
+                        .contentShape(Rectangle())
+                        .onTapGesture {
+                            selectedCategory = category
+                            selectedTheme = category.name
+                        }
+                    }
+                }
+                
+                
                 Button(action: startQuiz) {
                     Label("Start", systemImage: "play.fill")
                         .frame(maxWidth: .infinity)
@@ -62,7 +70,7 @@ struct StartScreen: View {
                         withAnimation {
                             phase = .addCategory
                         }
-                        
+
                     } label: {
                         Image(systemName: "plus")
                     }

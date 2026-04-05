@@ -11,7 +11,7 @@ enum AppPhase {
 @main
 struct QuizAppApp: App {
     @State private var phase: AppPhase = .start
-    @State private var selectedTheme: String = "Geografi"
+    @State private var selectedTheme: String = ""
 
     @State private var finalScore: Int = 0
     @State private var totalQuestions: Int = 0
